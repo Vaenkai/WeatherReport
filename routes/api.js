@@ -1,16 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const multer = require('multer');
 const cookieParser = require('cookie-parser');
 const fetch = require("node-fetch");
-const upload = multer();
-const http = require('https');
-const fs = require('fs');
 const router = express.Router();
-const APPID = '2e7e1d8fabd7c153330e11d1f13782d9';
+//const APPID = '2e7e1d8fabd7c153330e11d1f13782d9';
 
-let API_URL = 'https://api.openweathermap.org/data/2.5/weather?q=';
+//let API_URL = 'https://api.openweathermap.org/data/2.5/weather?q=';
 let Users = [];
 
 router.use(session({secret: "Your secret key"}));
@@ -50,7 +46,6 @@ router.route('/register')
     .get( function(req, res){
         console.log("signup GET get");
         res.redirect("/register");
-        //res.send("Hello");
     })
     .post( function(req, res){
         console.log("signup POST get");
@@ -87,10 +82,9 @@ router.route('/user')
     });
 
 router.get('/logout', function(req, res){
-    let name = req.session.user.name;
+    let name = req.session.user.nickname;
     req.session.destroy(function(){
     console.log("User %s logged out.", name);
-
   });
   res.redirect('/login');
 });
