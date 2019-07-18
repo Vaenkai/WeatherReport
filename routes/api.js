@@ -34,7 +34,7 @@ router.route('/login')
         Users.filter(function(user){
           if(user.EmailAddress === req.body.EmailAddress && user.Password === req.body.Password){
             req.session.user = user;
-            console.log("User %s logged in.", req.session.user.name);
+            console.log("User %s logged in.", req.session.user.nickname);
             res.redirect('/user');
           }
         });
