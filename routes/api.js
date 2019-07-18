@@ -32,11 +32,11 @@ router.route('/login')
     })
     .post(function(req, res){
         console.log("login POST get");
-      if(!req.body.email || !req.body.password){
+      if(!req.body.EmailAddress || !req.body.Password){
         res.redirect('/login');
       } else {
         Users.filter(function(user){
-          if(user.email === req.body.email && user.password === req.body.password){
+          if(user.EmailAddress === req.body.EmailAddress && user.Password === req.body.Password){
             req.session.user = user;
             console.log("User %s logged in.", req.session.user.name);
             res.redirect('/user');
@@ -54,11 +54,9 @@ router.route('/register')
     })
     .post( function(req, res){
         console.log("signup POST get");
-
       if(!req.body.EmailAddress || !req.body.Password || !req.body.nickname){
           console.log(req.body);
           res.status("400");
-
       } else if(Users.find(function (user) {
         return user.EmailAddress === req.body.EmailAddress;
       })){
@@ -71,17 +69,20 @@ router.route('/register')
         };
         Users.push(newUser);
         req.session.user = newUser;
-
-
         console.log("User %s signed up.", req.body.nickname);
-        //res.redirect('/');
-          res.send("Success");
+        res.send({
+              nickname: req.session.user.nickname
+        });
       }
     });
 
 router.route('/user')
     .get( function(req, res){
-        if(req.session.user) {res.redirect('/user');}
+        if(req.session.user) {
+            res.send({
+                nickname: req.session.user.nickname
+            }).then(res.redirect('/'));
+        }
         else res.redirect('/login');
     });
 
